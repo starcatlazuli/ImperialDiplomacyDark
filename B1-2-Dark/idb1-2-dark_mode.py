@@ -10,6 +10,7 @@ color_deep = '#325B68'
 color_impass = '#0A3542'
 color_text = '#FFFFFF'
 color_base = '#B7AB80'
+color_trees = '#8a836b'
 
 # Region and Unit fill colors to find and replace - note that Russia and Guarani have no recolor
 ru_fills = {
@@ -39,7 +40,7 @@ ru_fills = {
 	'#7CDBC3': '#4AB79B'    # Tokugawa
 }
 
-# High Sea and Tree fills
+# High Sea fills
 deep_fills = {
 	'Indian Ocean': 'path53785',
 	'North Atlantic': 'path56148',
@@ -50,7 +51,10 @@ deep_fills = {
 	'North Pacific R': 'path3473',
 	'South Pacific LA': 'path3469',
 	'South Pacific LB': 'path500799',
-	'South Pacific R': 'path3472',
+	'South Pacific R': 'path3472'
+}
+
+high_lands = {
 	'Siberian Tundra': 'path466'
 }
 
@@ -151,10 +155,10 @@ text_fills = [
 	"Corse",
 	"Otranto",
 	"Adriatic",
-	"Bahia",
+	"Bahia Grande",
 	"Lucia",
 	"Maarten",
-	"Madeira",
+	"Madeira Plain",
 	"Tundra"
 ]
 
@@ -173,13 +177,16 @@ class DarkMode (inkex.EffectExtension):
 				for text in group:
 					text.style.set_color(color_text, 'fill')
 				
-				# Recolor the paths defined in deep_fills and impass_fills for layers in the Other Fills group
+				# Recolor the deep_fills, impass_fills, and high_lands paths for layers in the Other Fills group
 				for path in group:
 					if path.get('id') in deep_fills.values():
 						path.style.set_color(color_deep, 'fill')
 						
 					if path.get('id') in impass_fills.values():
 						path.style.set_color(color_impass, 'fill')
+						
+					if path.get('id') in high_lands.values():
+						path.style.set_color(color_trees, 'fill')
 				
 				# Do the same for subgroups of the Other Fills group
 				for child in group.getchildren():
