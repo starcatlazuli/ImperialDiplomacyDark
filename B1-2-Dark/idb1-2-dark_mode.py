@@ -221,12 +221,13 @@ class DarkMode (inkex.EffectExtension):
 				rect_style = {'stroke': '#000000', 'stroke-width': 0, 'fill': color_ocean}
 				rect_attribs = {'style': str(inkex.Style(rect_style)),
 						inkex.addNS('label', 'inkscape'): "rect1",
-						'left': '0', 'top': '0',
+						'x': '0', 'y': '-18',
 						'width': '4464', 'height': '2200'}
 				
 				# Draw a rectangle
 				darkrect_layer = inkex.etree.SubElement(group, 'g', {
-					inkex.addNS('label', 'inkscape'): 'Dark Rectangle'
+					inkex.addNS('label', 'inkscape'): 'Dark Rectangle',
+					'x': '0', 'y': '0'
 				})
 				darkrect_layer.add(Rectangle (**rect_attribs))
 			
@@ -245,17 +246,28 @@ class DarkMode (inkex.EffectExtension):
 						path_color = str(path.style.get_color().to_rgb()).upper()
 						if path_color in ru_fills:
 							path.style.set_color(ru_fills.get(path_color), 'fill')
+
+			# Grab the Island Rings group
+		    	if group.get('id') == "layer9":
+			    	for path in group:
+			    		path_color = str(path.style.get("stroke")).upper()
+			    		if path_color in ru_fills:
+						path.style.set_color(ru_fills.get(path_color), 'stroke')
+				for child in group.getchildren():
+			    		for path in child:
+						path_color = str(path.style.get("stroke")).upper()
+						if path_color in ru_fills:
+				    			path.style.set_color(ru_fills.get(path_color), 'stroke')
 						
-			# Grab the SC Markers group
-			if group.get('id') == "layer3":
+			# Grab the SC Markers group or the Power Banners group
+			if group.get('id') == "layer3" or group.get('id') == "layer13":
 				for child in group.getchildren():
 					for path in child:
 						
 						# Recolor the path matching keys of the ru_fills dictionary
 						path_color = str(path.style.get("fill")).upper()
-						if path_color != "NONE":
-							if path_color in ru_fills:
-								path.style.set_color(ru_fills.get(path_color), 'fill')
+						if path_color in ru_fills:
+							path.style.set_color(ru_fills.get(path_color), 'fill')
 
 if __name__ == '__main__':
 	DarkMode ().run ()
