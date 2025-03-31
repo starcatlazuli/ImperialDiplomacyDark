@@ -221,12 +221,13 @@ class DarkMode (inkex.EffectExtension):
 				rect_style = {'stroke': '#000000', 'stroke-width': 0, 'fill': color_ocean}
 				rect_attribs = {'style': str(inkex.Style(rect_style)),
 						inkex.addNS('label', 'inkscape'): "rect1",
-						'left': '0', 'top': '0',
+						'x': '0', 'y': '-18',
 						'width': '4464', 'height': '2200'}
 				
 				# Draw a rectangle
 				darkrect_layer = inkex.etree.SubElement(group, 'g', {
-					inkex.addNS('label', 'inkscape'): 'Dark Rectangle'
+					inkex.addNS('label', 'inkscape'): 'Dark Rectangle',
+					'x': '0', 'y': '0'
 				})
 				darkrect_layer.add(Rectangle (**rect_attribs))
 			
