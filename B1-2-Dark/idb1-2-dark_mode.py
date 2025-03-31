@@ -259,16 +259,15 @@ class DarkMode (inkex.EffectExtension):
 						if path_color in ru_fills:
 				    			path.style.set_color(ru_fills.get(path_color), 'stroke')
 						
-			# Grab the SC Markers group
-			if group.get('id') == "layer3":
+			# Grab the SC Markers group or the Power Banners group
+			if group.get('id') == "layer3" or group.get('id') == "layer13":
 				for child in group.getchildren():
 					for path in child:
 						
 						# Recolor the path matching keys of the ru_fills dictionary
 						path_color = str(path.style.get("fill")).upper()
-						if path_color != "NONE":
-							if path_color in ru_fills:
-								path.style.set_color(ru_fills.get(path_color), 'fill')
+						if path_color in ru_fills:
+							path.style.set_color(ru_fills.get(path_color), 'fill')
 
 if __name__ == '__main__':
 	DarkMode ().run ()
