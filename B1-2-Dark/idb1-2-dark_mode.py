@@ -246,6 +246,18 @@ class DarkMode (inkex.EffectExtension):
 						path_color = str(path.style.get_color().to_rgb()).upper()
 						if path_color in ru_fills:
 							path.style.set_color(ru_fills.get(path_color), 'fill')
+
+			# Grab the Island Rings group
+		    	if group.get('id') == "layer9":
+			    	for path in group:
+			    		path_color = str(path.style.get("stroke")).upper()
+			    		if path_color in ru_fills:
+						path.style.set_color(ru_fills.get(path_color), 'stroke')
+				for child in group.getchildren():
+			    		for path in child:
+						path_color = str(path.style.get("stroke")).upper()
+						if path_color in ru_fills:
+				    			path.style.set_color(ru_fills.get(path_color), 'stroke')
 						
 			# Grab the SC Markers group
 			if group.get('id') == "layer3":
