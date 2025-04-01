@@ -1,0 +1,254 @@
+#!/usr/bin/env python
+# coding=utf-8
+
+import inkex
+from inkex import Rectangle
+
+# General fills
+color_ocean = '#396B70'
+color_deep = '#325B68'
+color_impass = '#333333'
+color_text = '#FFFFFF'
+color_base = '#B7AB80'
+color_trees = '#A17555'
+
+# Region and Unit fill colors to find and replace
+# No recolor for Russia, Guarani, France, Athapasca, Tokugawa, Mapuche, Aymara, England, Portugal, Inuit, Mughal, Safavid, Ute-Shoshone, Abyssinia, Ajuuraan, Austria, Ayutthaya
+ru_fills = {
+	'#C6B7AB': color_base,	# Base
+	'#F0CE48': '#DBB045',	# Spain
+	'#FC9C23': '#DB7745',	# Netherlands
+	'#A03838': '#AB2136',	# Ottoman
+	'#E390B3': '#E57BA8',	# Poland-Lithuania
+	'#CADD7E': '#B8DC5C',	# Ming
+	'#F36678': '#D67582',	# Qing
+	'#924CB3': '#9F52C4',	# Kongo
+	'#4E51BA': '#534884'	# Sweden
+}
+
+# High Sea fills
+deep_fills = {
+	'Indian Ocean': 'path53785',
+	'North Atlantic': 'path56148',
+	'South Atlantic A': 'path56264',
+	'South Atlantic B': 'path3305',
+	'South Atlantic C': 'path3466',
+	'North Pacific L': 'path3468',
+	'North Pacific R': 'path3473',
+	'South Pacific LA': 'path3469',
+	'South Pacific LB': 'path500799',
+	'South Pacific R': 'path3472'
+}
+
+high_lands = {
+	'Siberian Tundra': 'path466'
+}
+
+# Impassable fills
+impass_fills = {
+	'Sierra Nevada A': 'path813',
+	'Sierra Nevada B': 'path812',
+	'Greenland': 'path1-9',
+	'Sahara A': 'path1511',
+	'Sahara B': 'path1483',
+	'Himalayas': 'path309495'
+}
+
+# Strings which flag a region for needing a text recolor
+text_fills = [
+	"Sea",
+	"Bay ",
+	" Bay",
+	"Ocean",
+	"Gulf",
+	"Shore",
+	"Coast",
+	"Basin",
+	"Strait",
+	"Channel",
+	"Passage",
+	"Trough",
+	"Plateau",
+	"Rise",
+	"Ridge",
+	"Current",
+	"Banks",
+	"Islands",
+	"Estuary",
+	"Bangka",
+	"Reunion",
+	"Aleuts",
+	"Hawai'i",
+	"Galapagos",
+	"Lawrence",
+	"Meules",
+	"Baie",
+	"Bermuda",
+	"Bahamas",
+	"Juventud",
+	"Jamaica",
+	"Windward",
+	"Rico",
+	"Antigua",
+	"Guadeloupe",
+	"Barbados",
+	"New Courland",
+	"Plata",
+	"Chiloe",
+	"Golfo",
+	"Islas",
+	"Hoces",
+	"Helena",
+	"Tome",
+	"Fernando",
+	"Cabo",
+	"Jacob",
+	"Gambia",
+	"Canaries",
+	"Azores",
+	"Southern",
+	"Bight",
+	"Skagerrak",
+	"Copen.",
+	"Sound",
+	"Qeshm",
+	"Socotra",
+	"Zanzibar",
+	"Fort-Dauphin",
+	"Maldives",
+	"Aotearoa",
+	"Tenggara",
+	"Flores",
+	"Timor",
+	"Mindoro",
+	"Palawan",
+	"Cebu",
+	"Hainan",
+	"Okinawa",
+	"Amami",
+	"Kyushu",
+	"Tsushima",
+	"Enticosty",
+	"Zamboanga",
+	"Haitien",
+	"Domingo",
+	"Baleares",
+	"Corse",
+	"Otranto",
+	"Adriatic",
+	"Bahia Grande",
+	"Lucia",
+	"Maarten",
+	"Madeira Plain"
+]
+
+class DarkMode (inkex.EffectExtension):
+	
+	def effect (self):
+		
+		# Loop over all groups
+		groups = self.document.xpath('//svg:g', namespaces={'svg': inkex.NSS['svg']})
+		for group in groups:
+			
+			# Grab the Other Fills group
+			if group.get('id') == "layer14":
+				
+				# Recolor all text in the Other Fills group
+				for text in group:
+					text.style.set_color(color_text, 'fill')
+				
+				# Recolor the deep_fills, impass_fills, and high_lands paths for layers in the Other Fills group
+				for path in group:
+					if path.get('id') in deep_fills.values():
+						path.style.set_color(color_deep, 'fill')
+						
+					if path.get('id') in impass_fills.values():
+						path.style.set_color(color_impass, 'fill')
+						
+					if path.get('id') in high_lands.values():
+						path.style.set_color(color_trees, 'fill')
+				
+				# Do the same for subgroups of the Other Fills group
+				for child in group.getchildren():
+					for path in child:
+						if path.get('id') in deep_fills.values():
+							path.style.set_color(color_deep, 'fill')
+		
+			# Grab the Sidebar group
+			if group.get('id') == "layer7":
+				for path in group:
+					
+					# Hide map edge
+					if path.get('id') == "rect14569":
+						path.style.set_color(color_base, 'fill')
+					
+					# Recolor Sidebar background
+					if path.get('id') == "rect37478":
+						path.style.set_color(color_base, 'fill')
+			
+			# Grab the Titles group
+			if group.get('id') == "layer1":
+				
+				# Recolor the texts defined in text_fills for layers in the Titles group
+				for text in group:
+					if any(substring in text.get_text() for substring in text_fills):
+						text.style.set_color(color_text, 'fill')
+			
+			# Grab the Background group
+			if group.get('id') == "g407997":
+				
+				# Style a dark rectangle
+				rect_style = {'stroke': '#000000', 'stroke-width': 0, 'fill': color_ocean}
+				rect_attribs = {'style': str(inkex.Style(rect_style)),
+						inkex.addNS('label', 'inkscape'): "rect1",
+						'x': '0', 'y': '-18',
+						'width': '4464', 'height': '2200'}
+				
+				# Draw a rectangle
+				darkrect_layer = inkex.etree.SubElement(group, 'g', {
+					inkex.addNS('label', 'inkscape'): 'Dark Rectangle',
+					'x': '0', 'y': '0'
+				})
+				darkrect_layer.add(Rectangle (**rect_attribs))
+			
+			# Grab the Region Colors group or the Unit Output group or the Island Fills group
+			if group.get('id') == "layer6" or group.get('id') == "layer16" or group.get('id') == "layer11":
+				for path in group:
+					
+					# Recolor the path matching keys of the ru_fills dictionary
+					path_color = str(path.style.get_color().to_rgb()).upper()
+					if path_color in ru_fills:
+						path.style.set_color(ru_fills.get(path_color), 'fill')
+					
+				# Do the same for children of this group
+				for child in group.getchildren():
+					for path in child:
+						path_color = str(path.style.get_color().to_rgb()).upper()
+						if path_color in ru_fills:
+							path.style.set_color(ru_fills.get(path_color), 'fill')
+
+			# Grab the Island Rings group
+				if group.get('id') == "layer9":
+					for path in group:
+						path_color = str(path.style.get("stroke")).upper()
+						if path_color in ru_fills:
+							path.style.set_color(ru_fills.get(path_color), 'stroke')
+							
+				for child in group.getchildren():
+					for path in child:
+						path_color = str(path.style.get("stroke")).upper()
+						if path_color in ru_fills:
+							path.style.set_color(ru_fills.get(path_color), 'stroke')
+						
+			# Grab the SC Markers group or the Power Banners group
+			if group.get('id') == "layer3" or group.get('id') == "layer13":
+				for child in group.getchildren():
+					for path in child:
+						
+						# Recolor the path matching keys of the ru_fills dictionary
+						path_color = str(path.style.get("fill")).upper()
+						if path_color in ru_fills:
+							path.style.set_color(ru_fills.get(path_color), 'fill')
+
+if __name__ == '__main__':
+	DarkMode ().run ()
