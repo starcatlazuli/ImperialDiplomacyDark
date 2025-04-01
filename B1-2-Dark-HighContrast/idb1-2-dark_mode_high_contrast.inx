@@ -1,0 +1,14 @@
+<?xml version="HC1.2" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+
+	<name>Dark Mode B1.2 High Contrast</name>
+	<id>starcat.darkmode.B1.2.HC1.2</id>
+	<effect>
+		<effects-menu>
+			<submenu name="Imperial Diplomacy"/>
+		</effects-menu>
+	</effect>
+	<script>
+		<command location="inx" interpreter="python">idb1-2-dark_mode_high_contrast.py</command>
+	</script>
+</inkscape-extension>
