@@ -14,30 +14,30 @@ color_trees = '#8a836b'
 
 # Region and Unit fill colors to find and replace - note that Russia and Guarani have no recolor
 ru_fills = {
-	'#C6B7AB': color_base,  # Base
-	'#3C9553': '#23763F',   # Portugal
-	'#F0CE48': '#DBB045',   # Spain
-	'#FC9C23': '#DB7745',   # Netherlands
-	'#F94455': '#E33544',   # England
-	'#66A2E3': '#24A57B',   # France
-	'#A03838': '#AB2136',   # Ottoman
-	'#E390B3': '#E57BA8',   # Poland-Lithuania
-	'#AFC5D8': '#95ADC2',   # Inuit
-	'#CADD7E': '#B8DC5C',   # Ming
-	'#AB9F26': '#999941',   # Mughal
-	'#F36678': '#E04A5D',   # Qing
-	'#5A887F': '#407167',   # Safavid
-	'#CA7A59': '#B87052',   # Ute-Shoshone
-	'#A88080': '#9D6767',   # Abyssinia
-	'#587BA7': '#4A688D',   # Ajuuraan
-	'#E95A94': '#BB4C79',   # Athapasca
-	'#A17555': '#82644D',   # Austria
-	'#9A2F56': '#AD295D',   # Aymara
-	'#9D84AE': '#B875CE',   # Ayutthaya
-	'#924CB3': '#944FA5',   # Kongo
-	'#81889D': '#696E7F',   # Mapuche-Tehuelche
-	'#4E51BA': '#534884',   # Sweden
-	'#7CDBC3': '#4AB79B'    # Tokugawa
+	'#C6B7AB': color_base,	# Base
+	'#3C9553': '#23763F',	# Portugal
+	'#F0CE48': '#DBB045',	# Spain
+	'#FC9C23': '#DB7745',	# Netherlands
+	'#F94455': '#E33544',	# England
+	'#66A2E3': '#24A57B',	# France
+	'#A03838': '#AB2136',	# Ottoman
+	'#E390B3': '#E57BA8',	# Poland-Lithuania
+	'#AFC5D8': '#95ADC2',	# Inuit
+	'#CADD7E': '#B8DC5C',	# Ming
+	'#AB9F26': '#999941',	# Mughal
+	'#F36678': '#E04A5D',	# Qing
+	'#5A887F': '#407167',	# Safavid
+	'#CA7A59': '#B87052',	# Ute-Shoshone
+	'#A88080': '#9D6767',	# Abyssinia
+	'#587BA7': '#4A688D',	# Ajuuraan
+	'#E95A94': '#BB4C79',	# Athapasca
+	'#A17555': '#82644D',	# Austria
+	'#9A2F56': '#AD295D',	# Aymara
+	'#9D84AE': '#B875CE',	# Ayutthaya
+	'#924CB3': '#944FA5',	# Kongo
+	'#81889D': '#696E7F',	# Mapuche-Tehuelche
+	'#4E51BA': '#534884',	# Sweden
+	'#7CDBC3': '#4AB79B'	# Tokugawa
 }
 
 # High Sea fills
@@ -248,16 +248,17 @@ class DarkMode (inkex.EffectExtension):
 							path.style.set_color(ru_fills.get(path_color), 'fill')
 
 			# Grab the Island Rings group
-		    	if group.get('id') == "layer9":
-			    	for path in group:
-			    		path_color = str(path.style.get("stroke")).upper()
-			    		if path_color in ru_fills:
-						path.style.set_color(ru_fills.get(path_color), 'stroke')
-				for child in group.getchildren():
-			    		for path in child:
+				if group.get('id') == "layer9":
+					for path in group:
 						path_color = str(path.style.get("stroke")).upper()
 						if path_color in ru_fills:
-				    			path.style.set_color(ru_fills.get(path_color), 'stroke')
+							path.style.set_color(ru_fills.get(path_color), 'stroke')
+							
+				for child in group.getchildren():
+					for path in child:
+						path_color = str(path.style.get("stroke")).upper()
+						if path_color in ru_fills:
+							path.style.set_color(ru_fills.get(path_color), 'stroke')
 						
 			# Grab the SC Markers group or the Power Banners group
 			if group.get('id') == "layer3" or group.get('id') == "layer13":
