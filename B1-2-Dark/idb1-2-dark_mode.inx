@@ -1,8 +1,8 @@
-<?xml version="1.1" encoding="UTF-8"?>
+<?xml version="1.2" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
 
 	<name>Dark Mode B1.2</name>
-	<id>starcat.darkmode.B1.2.1.1</id>
+	<id>starcat.darkmode.B1.2.1.2</id>
 	<effect>
 		<effects-menu>
 			<submenu name="Imperial Diplomacy"/>
